@@ -2,7 +2,7 @@ Application that downloads audio and video from youtube with ffmpeg and ytdl-cor
 
 NEXT BUILDS
 
-File Manager;
-Video Support;
-Audio and video player;
-Improved interface;
+- File Manager;
+- Video Support;
+- Audio and video player;
+- Improved interface;
