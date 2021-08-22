@@ -1,0 +1,33 @@
+:root {
+  --dk-box-color: #3b79ff;
+  --dk-hover-color: #6797ff;
+  --dk-dark: #1d1d1d;
+  --dk-box-dark: #2e2e2e;
+  --dk-box-light-dark: #3b3b3b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: white;
+}
+
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--dk-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--dk-box-color);
+}
