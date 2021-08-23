@@ -12,7 +12,7 @@ function createWindow() {
     resizable: false,
     backgroundColor: "#1d1d1d",
     title: "YTDownloader",
-    icon: `${__dirname}/assets/app-logo.png`
+    icon: `${__dirname}/assets/app-logo.png`,
     webPreferences: {
       preload: `${__dirname}/preload.js`,
       nodeIntegration: true,

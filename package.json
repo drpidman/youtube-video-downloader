@@ -10,13 +10,14 @@
     "copyright": "Copyright © 2021 ${author}",
     "win": {
       "icon": "./public/assets/app-logo.png",
-      "target": "msi",
-      "publisherName": "Drkryz"
+      "publisherName": "Drkryz",
+      "target": "msi"
     }
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "set \"GENERATE_SOURCEMAP=false\" && craco build",
+    "app-build": "npm run build && electron-builder",
     "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron-start": "electron .",
     "electron-pack": "electron-packager ./build --no-prune --ignore=/node_modules --ignore=/e2e --overwrite --ignore=/src"

@@ -13,6 +13,7 @@ const app = window.require('electron').remote.app;
 interface Props {}
 interface State {
   page: string;
+  loading: boolean;
 }
 
 // typings for typescript files
@@ -22,10 +23,12 @@ export default class Main extends Component<Props, State> {
 
     this.state = {
       page: "main",
+      loading: true
     };
   }
 
   componentDidMount() {
+    this.loading();
     this.initDefaultDir();
   }
 
@@ -59,6 +62,11 @@ export default class Main extends Component<Props, State> {
     e.preventDefault();
     this.setState({ page: "settings " });
   };
+
+  loading = () => {
+    // timer to set directories
+    setTimeout(() => this.setState({ loading: false }), 1000)
+  }
 
   
   renderByState = () => {
@@ -99,6 +107,9 @@ export default class Main extends Component<Props, State> {
 
   render() {
     // RETURN BY
-    return this.mainContent();
+    if (this.state.loading)
+        return null;
+    else
+        return this.mainContent();
   }
 }
