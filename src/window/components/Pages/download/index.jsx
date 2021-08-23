@@ -140,7 +140,7 @@ export function DownloadView() {
         </ProgressNotificationHeader>
         <ProgressNotificationBody>
           <ProgressNotificationNet>
-            <span><i class="bi bi-reception-4"></i> Download Speed: </span>
+            <span><i className="bi bi-reception-4"></i> Download Speed: </span>
           </ProgressNotificationNet>
           <ProgressNotificationNet>
             <span id="net-kbps"></span>

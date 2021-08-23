@@ -47,7 +47,8 @@ class DownloadService extends EventEmitter {
       quality: "highestaudio",
     });
 
-    const command = ffmpeg(stream)
+    // FIX SPAWN ERROR ENOENT
+    ffmpeg(stream)
       .audioBitrate(128)
       .save(title)
       .on("progress", (progress) => {
