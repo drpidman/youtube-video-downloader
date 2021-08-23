@@ -6,6 +6,10 @@ import {
   DropDown,
   DropItems,
   InputGroup,
+  ProgressNotification,
+  ProgressNotificationBody,
+  ProgressNotificationHeader,
+  ProgressNotificationNet,
 } from "./View";
 
 import React ,{ useState } from "react";
@@ -17,6 +21,8 @@ const downloadService = new DownloadService();
 export function DownloadView() {
 
   const [ DropVisible, setVisible ] = useState(false);
+  const [ NotfVisible, NotfActive ] = useState(false);
+  const [ btnContent, setBtnContent ] = useState('DOWNLOAD');
 
   /**
    *
@@ -31,6 +37,7 @@ export function DownloadView() {
     }
   };
 
+
   /**
    * 
    * @param {*} e preventDefaults
@@ -40,14 +47,22 @@ export function DownloadView() {
     const url = document.getElementById('download-url').value;
     if (url === '') return alert('Please, insert a url');
 
+    setBtnContent('Processing...')
+
     downloadService.DownloadAudioEvent(url.toString(), JSON.parse(
       localStorage.getItem('audio-path')
     ).path);
 
-    
+
+    downloadService.on('audio:onProgress', (progress) => {
+      setBtnContent('DOWNLOAD');
+      NotfActive(true);
+      document.getElementById('net-kbps').innerText = progress.currentKbps + 'Kbps';
+    });
   }
 
   return (
+    <div>
     <BoxView>
       <ViewerName>Download</ViewerName>
       <DownSpace>
@@ -103,11 +118,35 @@ export function DownloadView() {
           <ButtonGroup>
             <button onClick={buttonDownload}>
               <i className="bi bi-download"></i>
-               DOWNLOAD
+               {
+                 btnContent
+               }
             </button>
           </ButtonGroup>
         </DownSpaceBox>
       </DownSpace>
     </BoxView>
+    <ProgressNotification style={{ visibility: NotfVisible ? 'visible' : 'hidden' }}>
+        <ProgressNotificationHeader>
+          <div>
+            <span>Download State</span>
+          </div>
+          <div style={{ justifyContent: "flex-end"}}>
+            <a role="button" onClick={function(e) {
+              e.preventDefault();
+              NotfActive(false);
+            }}>&times;</a>
+          </div>
+        </ProgressNotificationHeader>
+        <ProgressNotificationBody>
+          <ProgressNotificationNet>
+            <span><i class="bi bi-reception-4"></i> Download Speed: </span>
+          </ProgressNotificationNet>
+          <ProgressNotificationNet>
+            <span id="net-kbps"></span>
+          </ProgressNotificationNet>
+        </ProgressNotificationBody>
+    </ProgressNotification>
+    </div>
   );
 }

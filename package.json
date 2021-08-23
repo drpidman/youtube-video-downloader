@@ -1,6 +1,6 @@
 {
   "name": "drkryz-ytdownloader",
-  "version": "1.3.0",
+  "version": "1.3.5",
   "description": "Application that downloads audio and video from youtube with ffmpeg and ytdl-core made with electron, with a simple and beautiful interface.",
   "private": true,
   "main": "public/electron.js",

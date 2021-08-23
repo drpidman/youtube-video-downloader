@@ -18,9 +18,13 @@ class DownloadService extends EventEmitter {
    * @param {*} dest
    */
   DownloadAudioEvent = async (url, dest) => {
-    this.once("audio:downloadCommand", (await this.DownloadAudioCommand(url, dest)));
-    this.removeListener("audio:downloadCommand", (await this.DownloadAudioCommand));
+    // TEST LINE =====================
+    this.once("audio:downloadCommand", function(url, dest) {
+      this.DownloadAudioCommand(url, dest)
+    });
+    this.removeListener("audio:downloadCommand", this.DownloadAudioCommand);
     this.emit("audio:downloadCommand", url, dest);
+    // TEST LINE =====================
   };
 
   /**
@@ -43,16 +47,17 @@ class DownloadService extends EventEmitter {
       quality: "highestaudio",
     });
 
-    ffmpeg(stream)
+    const command = ffmpeg(stream)
       .audioBitrate(128)
       .save(title)
-      .once(
-        "start",
-        new Notification(`Download Started`, { body: `Saving in ${title}` })
-      )
-      .once(
+      .on("progress", (progress) => {
+        this.emit('audio:onProgress', progress);
+      })
+      .on(
         "end",
-        new Notification(`Download Ended`, { body: `Saved in ${title}` })
+        () => {
+          new Notification(`Download Ended`, { body: `Saved in ${title}` })
+        }
       );
   };
 
@@ -65,6 +70,11 @@ class DownloadService extends EventEmitter {
       .replace(/[^\x00-\x7F]/gim, "")
       .replace(/\"/gim, "")
       .replace(/[\']?[\!]?[\|]?[\?]?/gim, "");
+  }
+
+
+  getFfmpegPath() {
+    return ffmpegInstaller.path;
   }
 }
 

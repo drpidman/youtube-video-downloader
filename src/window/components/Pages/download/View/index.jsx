@@ -152,4 +152,48 @@ export const ButtonGroup = styled.div`
       background-color: var(--dk-hover-color);
     }
   }
+`;
+
+export const ProgressNotification = styled.div`
+  width: 50%;
+  height: auto;
+  position: absolute;
+  background: #fff;
+  bottom: 0.3rem;
+  right: 0.3rem;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 2px;
+`;
+
+export const ProgressNotificationHeader = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
+  color: #000;
+
+  div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: black;
+  }
+`;
+
+export const ProgressNotificationBody = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 0.3rem;
+`
+
+export const ProgressNotificationNet = styled.div`
+  width: 50%;
+  height: auto;
+  padding: 0.2rem;
+  color: black;
 `

@@ -21,14 +21,14 @@ function createWindow() {
       webSecurity: false,
     }
   });
+
   win.setMenu(null)
-  
   win.loadURL
   (
     isDev 
     ? 'http://localhost:3000' 
     : `file://${path.join(__dirname, 'index.html')}`
-  )
+  );
 
 }
 

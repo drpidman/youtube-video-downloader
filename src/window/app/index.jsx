@@ -8,6 +8,7 @@ import { SideBar, SideBarItems } from "../components/view/SideBar";
 
 const app = window.require('electron').remote.app;
 
+
 //disable Javascript Validate in user preferences, vscode;
 
 interface Props {}
