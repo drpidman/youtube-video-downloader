@@ -30,7 +30,6 @@ function createWindow() {
     : `file://${path.join(__dirname, 'index.html')}`
   );
 
-
 }
 
 app.on("ready", () => {

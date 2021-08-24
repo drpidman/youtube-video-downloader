@@ -1,12 +1,16 @@
 const { EventEmitter } = require("events");
 const { remote } = require("electron");
 
-const ffmpegInstaller = require("@ffmpeg-installer/ffmpeg");
 const ffmpeg = require("fluent-ffmpeg");
+// fix path error .asar
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path.replace('app.asar', 'app.asar.unpacked')
+
 const path = require("path");
 const ytdl = require("ytdl-core");
 
-ffmpeg.setFfmpegPath(ffmpegInstaller.path);
+
+// set ffmpeg path
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 class DownloadService extends EventEmitter {
   constructor() {
@@ -33,7 +37,7 @@ class DownloadService extends EventEmitter {
    * @param {*} dest
    */
   DownloadAudioCommand = async (url, dest) => {
-    const videoInfo = await ytdl.getInfo(url);
+    const videoInfo = await ytdl.getBasicInfo(url);
     let videoDetails = {
       title: this.removeInvalidsChrts(
         videoInfo.player_response.videoDetails.title
@@ -43,23 +47,27 @@ class DownloadService extends EventEmitter {
 
     let title = dest + path.join(`/${videoDetails.title}.mp3`);
 
-    const stream = ytdl(url, {
-      quality: "highestaudio",
-    });
-
-    // FIX SPAWN ERROR ENOENT
-    ffmpeg(stream)
+    try {
+      const stream = ytdl(url, {
+        quality: "highestaudio",
+      })
+  
+      // FIX SPAWN ERROR ENOENT
+      // start
+      await ffmpeg(stream)
       .audioBitrate(128)
       .save(title)
-      .on("progress", (progress) => {
+      .on('progress', (progress) => {
+        console.log(progress)
         this.emit('audio:onProgress', progress);
       })
-      .on(
-        "end",
-        () => {
-          new Notification(`Download Ended`, { body: `Saved in ${title}` })
-        }
-      );
+      .on('end', () => {
+        new Notification(`Download Ended`, { body: `Saved in ${title}`});
+      })
+    } catch (e) {
+      console.log(e);
+    }
+
   };
 
   /**
@@ -71,11 +79,6 @@ class DownloadService extends EventEmitter {
       .replace(/[^\x00-\x7F]/gim, "")
       .replace(/\"/gim, "")
       .replace(/[\']?[\!]?[\|]?[\?]?/gim, "");
-  }
-
-
-  getFfmpegPath() {
-    return ffmpegInstaller.path;
   }
 }
 
