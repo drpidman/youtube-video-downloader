@@ -1,3 +1,9 @@
+/**
+ * The code is ugly, because I'm doing kicked ... 
+ * but soon I will fix and optimize for a better experience :)
+ */
+
+
 import { BoxView, ViewerName } from "../workspace/BoxView";
 import {
   ButtonGroup,
@@ -11,6 +17,7 @@ import {
   ProgressNotificationHeader,
   ProgressNotificationNet,
 } from "./View";
+
 
 import React ,{ useState } from "react";
 
@@ -49,16 +56,41 @@ export function DownloadView() {
 
     setBtnContent('Processing...')
 
-    downloadService.DownloadAudioEvent(url.toString(), JSON.parse(
-      localStorage.getItem('audio-path')
-    ).path);
+    switch(localStorage.getItem("downtype")) {
+      case "audio":
+        downloadService.DownloadAudioEvent(url.toString(), JSON.parse(
+          localStorage.getItem('audio-path')
+        ).path);
+    
+    
+        downloadService.on('audio:onProgress', (progress) => {
+          setBtnContent('DOWNLOAD');
+          NotfActive(true);
+          document.getElementById('net-kbps').innerText = progress.currentKbps + 'Kbps';
+        });
+    
+        downloadService.on('audio:onDownloadEnded', () => {
+          NotfActive(false);
+          document.getElementById('net-kbps').innerText = 0 + 'Kbps';
+        });
+      break;
+      case "video":
+        downloadService.DownloadVideoEvent(url.toString(), JSON.parse(
+          localStorage.getItem('video-path')
+        ).path);
 
+        downloadService.on('video:onProgress', (progress) => {
+          setBtnContent('DOWNLOAD');
+          NotfActive(true);
+          document.getElementById('net-kbps').innerText = progress.currentKbps + 'Kbps';
+        });
 
-    downloadService.on('audio:onProgress', (progress) => {
-      setBtnContent('DOWNLOAD');
-      NotfActive(true);
-      document.getElementById('net-kbps').innerText = progress.currentKbps + 'Kbps';
-    });
+        downloadService.on('video:onDownloadEnded', () => {
+          NotfActive(false);
+          document.getElementById('net-kbps').innerText = 0 + 'Kbps';
+        });
+      break; 
+    }
   }
 
   return (

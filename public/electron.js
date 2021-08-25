@@ -30,6 +30,7 @@ function createWindow() {
     : `file://${path.join(__dirname, 'index.html')}`
   );
 
+  // win.webContents.openDevTools();
 }
 
 app.on("ready", () => {

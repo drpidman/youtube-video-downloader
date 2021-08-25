@@ -1,3 +1,7 @@
+# 1.3.65
+  - Support for downloading videos formats mp4
+  - corrections and optimization
+
 # 1.3.63
   - In devTools error: SPAWN ERROR 'apppath folder' 'ENOENT' tidy, was causing problems with the download, only a variable declared unexpectedly in the wrong place.
     - problem: ffmpeg path error with .asar files
